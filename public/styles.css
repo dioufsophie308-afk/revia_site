@@ -278,3 +278,54 @@ select { width: 100%; border: 2px solid var(--taupe); border-radius: 14px; paddi
   .nav__links { order: 5; }
 }
 @media (max-width: 420px) { .grid--prod { grid-template-columns: minmax(0, 1fr); } }
+
+/* ====================================================================
+   Style « Pinterest / Instagram » : photos en pleine largeur, coins très
+   arrondis, mosaïque à hauteurs variables, catégories façon « stories ».
+   Les photos sont facultatives : sans photo, l'illustration colorée s'affiche.
+   ==================================================================== */
+:root { --radius: 24px; --shadow-soft: 0 10px 30px rgb(43 38 34 / .10); }
+.photo { width: 100%; height: 100%; object-fit: cover; background: var(--sand); }
+
+/* Accueil : mosaïque de tuiles à hauteurs variables */
+.hero__art { aspect-ratio: auto; background: none; border-radius: 0; overflow: visible; }
+.mosaic { columns: 2; column-gap: 14px; }
+.tile { position: relative; break-inside: avoid; margin: 0 0 14px; border-radius: var(--radius); overflow: hidden; background: var(--c, var(--sand)); box-shadow: var(--shadow-soft); aspect-ratio: 4 / 5; }
+.tile:nth-child(3n + 2) { aspect-ratio: 1 / 1; }
+.tile:nth-child(3n) { aspect-ratio: 3 / 4; }
+.tile .tag { position: absolute; left: 12px; bottom: 12px; max-width: calc(100% - 24px); background: rgb(255 255 255 / .94); color: var(--ink); border-radius: 999px; padding: 6px 12px; font-size: .8125rem; line-height: 1.2; }
+.tile .tag b { font-weight: 700; }
+@media (min-width: 1101px) { .mosaic { padding-top: 0; } .mosaic .tile:nth-child(n + 4) { margin-top: 0; } }
+
+/* Catalogue et sélection : grille « mosaïque » (colonnes, hauteurs variables) */
+.grid--prod { display: block; columns: 4 220px; column-gap: 22px; }
+.prod { position: relative; display: block; break-inside: avoid; margin: 0 0 26px; background: none; box-shadow: none; border-radius: var(--radius); overflow: visible; }
+.prod .pimg { position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-soft); transition: transform .25s ease, box-shadow .25s ease; }
+.prod:nth-child(4n + 2) .pimg { aspect-ratio: 1 / 1; }
+.prod:nth-child(4n + 3) .pimg { aspect-ratio: 3 / 4; }
+.prod:nth-child(4n) .pimg { aspect-ratio: 5 / 6; }
+.prod:hover .pimg, .prod:focus-within .pimg { transform: translateY(-3px); box-shadow: 0 16px 36px rgb(43 38 34 / .18); }
+.prod .pbody { padding: 12px 6px 0; gap: 3px; }
+.prod .pbody :is(h2, h3) { font: 600 1rem/1.3 var(--sans); }
+.prod .price { font-size: 1rem; color: var(--terra-deep); }
+.prod .meta { font-size: .875rem; }
+.prod .small { font-size: .75rem; }
+@media (max-width: 560px) { .grid--prod { columns: 2; column-gap: 14px; } .prod { margin-bottom: 20px; } }
+@media (max-width: 340px) { .grid--prod { columns: 1; } }
+
+/* Fiche produit : visuel portrait */
+.pdp__img { aspect-ratio: 4 / 5; border-radius: 32px; box-shadow: var(--shadow-soft); }
+
+/* Catégories façon « stories » Instagram : pastilles rondes cerclées */
+.grid--cat { display: flex; flex-wrap: wrap; gap: 28px 22px; }
+.grid--cat > .cat { flex: 0 1 140px; background: none; box-shadow: none; padding: 0; justify-items: center; text-align: center; position: relative; gap: 10px; }
+.cat .ico { width: 92px; height: 92px; box-shadow: 0 0 0 4px var(--cream), 0 0 0 7px var(--c); transition: transform .2s ease; }
+.cat:hover .ico, .cat:focus-within .ico { transform: scale(1.06); }
+.cat .ico svg { width: 40px; height: 40px; }
+.cat h3 { font: 700 .9375rem/1.25 var(--sans); }
+.cat p { font-size: .8125rem; }
+
+/* Régions et étapes : coins plus doux */
+.region, .step { border-radius: 28px; }
+.hero__art, .band, .waitlist { border-radius: 36px; }
+.hsearch input { border-radius: 999px; }

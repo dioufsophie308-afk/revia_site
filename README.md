@@ -35,6 +35,7 @@ scripts/content.mjs  pages de contenu (à propos, FAQ, retours, cookies, CGV…)
 partials/          en-tête et pied de page communs
 scripts/build.mjs  copie public/ → dist/ et génère config.js depuis l'environnement
 scripts/serve.mjs  serveur local
+photos-source/     photos d'origine ; `npm run photos` les convertit dans public/assets/photos/
 supabase/schema.sql  table waitlist + sécurité RLS
 vercel.json        build, en-têtes de sécurité
 docs/              architecture, Supabase, déploiement, design
@@ -60,6 +61,7 @@ Compléter les champs surlignés `[à renseigner]` des pages `mentions-legales`,
 - [Déploiement](docs/DEPLOIEMENT.md)
 - [Design et charte](docs/DESIGN.md)
 - [Accessibilité RGAA](docs/ACCESSIBILITE.md)
+- [Photos des produits](docs/PHOTOS.md)
 - [Écoconception](docs/ECOCONCEPTION.md)
 - [SEO](docs/SEO.md)
 - [Couverture du cahier des charges](docs/COUVERTURE_CAHIER_DES_CHARGES.md)

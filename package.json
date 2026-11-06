@@ -11,6 +11,7 @@
     "build": "node scripts/build.mjs",
     "dev": "node scripts/build.mjs && node scripts/serve.mjs",
     "check": "node --check public/main.js && node --check public/shop.js && node --check scripts/build.mjs && node --check scripts/content.mjs && node --check scripts/serve.mjs",
-    "build:html": "RELATIVE=1 node scripts/build.mjs"
+    "build:html": "RELATIVE=1 node scripts/build.mjs",
+    "photos": "python3 scripts/optimize-photos.py"
   }
 }

@@ -3,7 +3,7 @@
 //  - génère catalogue, fiches produit, panier, pages de contenu, plan du site, sitemap.xml, robots.txt
 //  - insère en-tête/pied de page, balises canoniques, données structurées
 //  - génère config.js depuis SUPABASE_URL / SUPABASE_ANON_KEY, calcule le poids des pages
-import { cpSync, rmSync, mkdirSync, writeFileSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { cpSync, rmSync, mkdirSync, writeFileSync, readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative as relPath } from 'node:path';
 import { pages } from './content.mjs';
@@ -18,6 +18,7 @@ const products = JSON.parse(readFileSync(join(root, 'data/products.json'), 'utf8
 const shipping = JSON.parse(readFileSync(join(root, 'data/shipping.json'), 'utf8'));
 const DEMO = products.demo !== false;
 const P = products.produits;
+const PBY = Object.fromEntries(P.map((p) => [p.slug, p]));
 
 rmSync(out, { recursive: true, force: true });
 mkdirSync(join(out, 'produit'), { recursive: true });
@@ -42,10 +43,15 @@ const GLYPH = {
 };
 const art = (p) => {
   const [bg, fg] = COLORS[p.continent];
-  return `<svg class="art" viewBox="0 0 200 150" aria-hidden="true" focusable="false"><rect width="200" height="150" fill="${bg}"/><circle cx="165" cy="25" r="62" fill="#fff" opacity=".13"/><circle cx="25" cy="140" r="48" fill="#fff" opacity=".1"/><g transform="translate(71 46) scale(2.4)" fill="none" stroke="${fg}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="${GLYPH[p.categorie]}"/></g></svg>`;
+  return `<svg class="art" viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="200" height="150" fill="${bg}"/><circle cx="165" cy="25" r="62" fill="#fff" opacity=".13"/><circle cx="25" cy="140" r="48" fill="#fff" opacity=".1"/><g transform="translate(71 46) scale(2.4)" fill="none" stroke="${fg}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="${GLYPH[p.categorie]}"/></g></svg>`;
 };
+/* Photos : si public/assets/photos/<slug>.webp existe, elle remplace l'illustration. */
+const hasPhoto = (slug) => existsSync(join(root, 'public', 'assets', 'photos', `${slug}.webp`));
+const media = (p, { alt = '', eager = false } = {}) => hasPhoto(p.slug)
+  ? `<img class="photo" src="/assets/photos/${p.slug}.webp" alt="${esc(alt)}" width="640" height="800" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`
+  : art(p);
 const card = (p, i, h = 3) => `<li class="card prod" data-idx="${i}" data-nom="${esc(norm(p.nom))}" data-cat="${esc(p.categorie)}" data-pays="${esc(p.pays)}" data-cont="${esc(p.continent)}" data-prix="${p.prix}" data-ship="${p.livrable.join(' ')}" data-txt="${esc(norm([p.nom, p.pays, p.continent, p.categorie, p.description].join(' ')))}">
-  <div class="pimg">${art(p)}</div>
+  <div class="pimg">${media(p)}</div>
   <div class="pbody"><p class="small">${esc(p.pays)} · ${esc(p.categorie)}</p><h${h}><a class="stretch" href="/produit/${p.slug}">${esc(p.nom)}</a></h${h}><p class="price">${eur(p.prix)}</p><p class="meta">${esc(p.unite)}</p></div>
 </li>`;
 const demoNote = '<p class="demo-note"><strong>Démonstration :</strong> produits, vendeurs, prix et frais fictifs. Aucune commande réelle n’est possible.</p>';
@@ -123,7 +129,7 @@ P.forEach((p) => {
     ${crumbs(items)}
     ${demoNote}
     <div class="pdp">
-      <div class="pdp__img">${art(p)}</div>
+      <div class="pdp__img">${media(p, { alt: `${p.nom}, ${p.pays}`, eager: true })}</div>
       <div class="pdp__info">
         <p class="small">${esc(p.pays)} · ${esc(p.continent)} · ${esc(p.categorie)}</p>
         <h1>${esc(p.nom)}</h1>
@@ -199,6 +205,8 @@ write('plan-du-site.html', head({ title: 'Plan du site', desc: 'Toutes les pages
 sitemapEntries.push({ url: '/plan-du-site', indexable: true, title: 'Plan du site' });
 
 /* ---------- Accueil : sélection et données structurées ---------- */
+const mosaicSlugs = ['tissu-wax-6-yards', 'assiette-ceramique-peinte', 'bijou-argent-mexique', 'the-vert-sencha'];
+const mosaic = `<ul class="mosaic" role="list">${mosaicSlugs.map((s) => PBY[s]).filter(Boolean).map((p) => `<li class="tile" style="--c:${COLORS[p.continent][0]}">${media(p)}<span class="tag"><b>${esc(p.categorie.split(' ')[0])}</b> ${esc(p.continent)}</span></li>`).join('')}</ul>`;
 const selection = ['tissu-wax-6-yards', 'the-vert-sencha', 'huile-olive-vierge-extra', 'sirop-erable-canada']
   .map((s) => P.find((p) => p.slug === s)).filter(Boolean);
 const homeLd = [
@@ -238,7 +246,7 @@ for (const f of files) {
   const depth = rel.split('/').length - 1;
   const pageUrl = rel === 'index.html' ? '/' : '/' + rel.replace(/\.html$/, '');
   let html = readFileSync(f, 'utf8').replace('<!--@header-->', header).replace('<!--@footer-->', footer);
-  if (rel === 'index.html') html = html.replace('<!--@jsonld-->', JSON.stringify(homeLd).replace(/</g, '\\u003c'))
+  if (rel === 'index.html') html = html.replace('<!--@mosaic-->', mosaic).replace('<!--@jsonld-->', JSON.stringify(homeLd).replace(/</g, '\\u003c'))
     .replace('<!--@selection-->', `    <section class="section" id="selection" aria-labelledby="t-sel">
       <div class="section__head"><p class="eyebrow">Sélection</p><h2 id="t-sel">À découvrir</h2><p class="sub">Quatre produits de démonstration, pour montrer ce que contiendront les fiches : origine, vendeur, prix et livraison.</p></div>
       <ul class="grid grid--prod" role="list">${selection.map((p, i) => card(p, i, 3)).join('')}</ul>
@@ -256,15 +264,17 @@ for (const f of files) {
 
 /* ---------- Poids des pages (page Écoconception) ---------- */
 const size = (f) => statSync(join(out, f)).size;
-const homeFiles = ['index.html', 'styles.css', 'main.js', 'shop.js', 'config.js', 'assets/logo-emblem.svg'];
-const kb = (n) => Math.round(n / 102.4) / 10;
+const BUDGET_KB = 300;
+const photosOf = (f) => [...new Set((readFileSync(join(out, f), 'utf8').match(/assets\/photos\/[\w.-]+\.webp/g) || []))];
+const homeFiles = ['index.html', 'styles.css', 'main.js', 'shop.js', 'config.js', 'assets/logo-emblem.svg', ...photosOf('index.html')];
 const homeKb = Math.round(homeFiles.reduce((n, f) => n + size(f), 0) / 1024);
 const shared = ['styles.css', 'shop.js', 'assets/logo-emblem.svg'].reduce((n, f) => n + size(f), 0);
-const pageKb = (f) => Math.round((size(f) + shared) / 1024);
+const pageKb = (f) => Math.round((size(f) + shared + photosOf(f).reduce((n, x) => n + size(x), 0)) / 1024);
+const nPhotos = existsSync(join(out, 'assets', 'photos')) ? readdirSync(join(out, 'assets', 'photos')).filter((x) => x.endsWith('.webp')).length : 0;
 const eco = join(out, 'ecoconception.html');
 writeFileSync(eco, readFileSync(eco, 'utf8')
   .replace('<!--@weight-->', String(homeKb)).replace('<!--@requests-->', String(homeFiles.length))
   .replace('<!--@w-catalogue-->', String(pageKb('catalogue.html'))).replace('<!--@w-produit-->', String(pageKb('produit/miel-de-manuka.html'))));
-console.log(`Build terminé → ${relPath(root, out)}/ | accueil ${homeKb} Ko (${homeFiles.length} requêtes), catalogue ${pageKb('catalogue.html')} Ko, produit ${pageKb('produit/miel-de-manuka.html')} Ko, panier ${pageKb('panier.html')} Ko`);
-const budget = { 'index.html': [homeKb, 100], 'catalogue.html': [pageKb('catalogue.html'), 100], 'produit/miel-de-manuka.html': [pageKb('produit/miel-de-manuka.html'), 100] };
+console.log(`Build terminé → ${relPath(root, out)}/ | accueil ${homeKb} Ko (${homeFiles.length} requêtes), catalogue ${pageKb('catalogue.html')} Ko, produit ${pageKb('produit/miel-de-manuka.html')} Ko, panier ${pageKb('panier.html')} Ko | photos : ${nPhotos}/${P.length}`);
+const budget = { 'index.html': [homeKb, BUDGET_KB], 'catalogue.html': [pageKb('catalogue.html'), BUDGET_KB], 'produit/miel-de-manuka.html': [pageKb('produit/miel-de-manuka.html'), BUDGET_KB] };
 for (const [k, [v, max]] of Object.entries(budget)) if (v > max) { console.error(`Budget dépassé : ${k} = ${v} Ko (max ${max} Ko)`); process.exitCode = 1; }
