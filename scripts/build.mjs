@@ -3,9 +3,8 @@
 //  - génère catalogue, fiches produit, panier, pages de contenu, plan du site, sitemap.xml, robots.txt
 //  - insère en-tête/pied de page, balises canoniques, données structurées
 //  - génère config.js depuis SUPABASE_URL / SUPABASE_ANON_KEY, calcule le poids des pages
-import { cpSync, rmSync, mkdirSync, writeFileSync, readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
+import { cpSync, rmSync, mkdirSync, writeFileSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { createHash } from 'node:crypto';
 import { dirname, join, relative as relPath } from 'node:path';
 import { pages } from './content.mjs';
 
@@ -19,7 +18,6 @@ const products = JSON.parse(readFileSync(join(root, 'data/products.json'), 'utf8
 const shipping = JSON.parse(readFileSync(join(root, 'data/shipping.json'), 'utf8'));
 const DEMO = products.demo !== false;
 const P = products.produits;
-const PBY = Object.fromEntries(P.map((p) => [p.slug, p]));
 
 rmSync(out, { recursive: true, force: true });
 mkdirSync(join(out, 'produit'), { recursive: true });
@@ -32,54 +30,22 @@ const norm = (s) => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').t
 const enc = encodeURIComponent;
 const write = (rel, content) => { const p = join(out, rel); mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, content); };
 
-/* Visuels « nature morte » en tons neutres (illustrations, remplacées par les photos quand elles existent). */
-const PALS = [
-  { top: '#EFE9DE', bot: '#E1D7C6', a: '#C4B198', b: '#8C7054', c: '#F7F2E9', ink: '#2B2622' },   // sable
-  { top: '#EBE9E4', bot: '#D9D6CE', a: '#AAA69B', b: '#6C6961', c: '#F5F3EF', ink: '#2B2622' },   // pierre
-  { top: '#EEE0D5', bot: '#DCC6B6', a: '#B98F76', b: '#87604C', c: '#F8EFE8', ink: '#2B2622' },   // argile
-  { top: '#E6E8DF', bot: '#D2D7C8', a: '#9BA48C', b: '#66705A', c: '#F2F3EC', ink: '#2B2622' },   // sauge
-  { top: '#4B4741', bot: '#37332E', a: '#D2C6B5', b: '#A99B88', c: '#EAE3D7', ink: '#F4EFE7' }    // fusain
-];
-const hash = (s) => [...s].reduce((n, ch) => (n * 31 + ch.charCodeAt(0)) >>> 0, 7);
-const palOf = (p) => PALS[[0, 1, 2, 3, 0, 2, 1, 3, 4][hash(p.slug) % 9]];
-const SCENES = {
-  'Alimentation': (c) => `<ellipse cx="100" cy="196" rx="52" ry="7" fill="#000" opacity=".12"/><rect x="62" y="104" width="76" height="90" rx="14" fill="${c.a}"/><rect x="66" y="84" width="68" height="22" rx="8" fill="${c.b}"/><rect x="74" y="128" width="52" height="38" rx="6" fill="${c.c}" opacity=".92"/><path d="M82 142h36M82 152h24" stroke="${c.b}" stroke-width="2" stroke-linecap="round"/><path d="M146 196c4-18 12-30 26-38-2 16-10 30-26 38z" fill="${c.b}" opacity=".55"/><path d="M40 196c-2-14 4-24 14-30 2 12-3 23-14 30z" fill="${c.b}" opacity=".4"/>`,
-  'Vêtements et textiles': (c) => `<ellipse cx="100" cy="206" rx="64" ry="7" fill="#000" opacity=".1"/><rect x="40" y="150" width="120" height="48" rx="10" fill="${c.b}"/><rect x="46" y="112" width="112" height="46" rx="10" fill="${c.a}"/><rect x="52" y="76" width="104" height="44" rx="10" fill="${c.c}"/><g stroke="${c.b}" stroke-width="2.5" stroke-linecap="round" opacity=".55"><path d="M64 88h80M64 98h80M64 108h80"/></g><g stroke="${c.c}" stroke-width="2.5" stroke-linecap="round" opacity=".6"><path d="M58 126h92M58 136h92M58 146h92"/></g><g stroke="${c.a}" stroke-width="2.5" stroke-linecap="round" opacity=".6"><path d="M52 164h96M52 174h96M52 184h96"/></g>`,
-  'Accessoires et bijoux': (c) => `<ellipse cx="100" cy="196" rx="58" ry="10" fill="#000" opacity=".12"/><ellipse cx="100" cy="176" rx="62" ry="22" fill="${c.a}"/><ellipse cx="100" cy="170" rx="62" ry="20" fill="${c.c}" opacity=".5"/><circle cx="100" cy="122" r="40" fill="none" stroke="${c.b}" stroke-width="9"/><circle cx="100" cy="122" r="40" fill="none" stroke="${c.c}" stroke-width="2" opacity=".5"/><circle cx="100" cy="80" r="11" fill="${c.c}"/><circle cx="97" cy="77" r="4" fill="#fff" opacity=".8"/>`,
-  'Cosmétiques et bien-être': (c) => `<ellipse cx="100" cy="196" rx="56" ry="8" fill="#000" opacity=".12"/><rect x="52" y="124" width="96" height="70" rx="16" fill="${c.a}"/><rect x="48" y="104" width="104" height="28" rx="12" fill="${c.b}"/><rect x="62" y="150" width="76" height="26" rx="6" fill="${c.c}" opacity=".9"/><path d="M72 163h56" stroke="${c.b}" stroke-width="2" stroke-linecap="round"/><ellipse cx="164" cy="190" rx="14" ry="9" fill="${c.b}" opacity=".5"/><ellipse cx="38" cy="192" rx="9" ry="6" fill="${c.a}" opacity=".7"/>`,
-  'Artisanat': (c) => `<ellipse cx="100" cy="204" rx="50" ry="7" fill="#000" opacity=".12"/><path d="M86 70h28l-4 26c28 14 40 42 40 70 0 20-14 36-50 36s-50-16-50-36c0-28 12-56 40-70z" fill="${c.a}"/><path d="M86 70h28l-1 8H87z" fill="${c.b}"/><path d="M70 150c18 8 42 8 60 0" stroke="${c.b}" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/><path d="M70 168c18 8 42 8 60 0" stroke="${c.c}" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/><g stroke="${c.b}" stroke-width="2" stroke-linecap="round" opacity=".6"><path d="M96 70c-2-22-12-38-20-48M104 70c2-22 10-34 22-44M100 70c0-16 2-32 6-44"/></g>`,
-  'Décoration': (c) => `<ellipse cx="100" cy="196" rx="62" ry="8" fill="#000" opacity=".12"/><ellipse cx="100" cy="150" rx="68" ry="44" fill="${c.a}"/><ellipse cx="100" cy="146" rx="56" ry="35" fill="${c.c}"/><ellipse cx="100" cy="146" rx="40" ry="24" fill="none" stroke="${c.a}" stroke-width="2.5"/><ellipse cx="100" cy="146" rx="22" ry="12" fill="${c.b}" opacity=".35"/><path d="M168 130c10-14 8-28 0-40 12 4 20 18 16 32-2 8-8 10-16 8z" fill="${c.b}" opacity=".5"/>`,
-  'Cadeaux et objets culturels': (c) => `<ellipse cx="100" cy="204" rx="62" ry="8" fill="#000" opacity=".12"/><rect x="48" y="112" width="104" height="86" rx="8" fill="${c.a}"/><rect x="42" y="92" width="116" height="26" rx="8" fill="${c.b}"/><rect x="94" y="92" width="12" height="106" fill="${c.c}" opacity=".9"/><path d="M100 92c-6-22-26-28-30-18s14 18 30 18zM100 92c6-22 26-28 30-18s-14 18-30 18z" fill="${c.c}"/>`
-};
-const bottle = (c) => `<ellipse cx="100" cy="198" rx="40" ry="6" fill="#000" opacity=".12"/><rect x="78" y="112" width="44" height="86" rx="14" fill="${c.a}"/><path d="M90 112V82h20v30z" fill="${c.a}"/><rect x="88" y="66" width="24" height="18" rx="5" fill="${c.b}"/><rect x="82" y="132" width="36" height="40" rx="5" fill="${c.c}" opacity=".92"/><path d="M88 146h24M88 156h14" stroke="${c.b}" stroke-width="2" stroke-linecap="round"/>`;
-const tin = (c) => `<ellipse cx="100" cy="198" rx="54" ry="8" fill="#000" opacity=".12"/><rect x="56" y="112" width="88" height="84" rx="10" fill="${c.a}"/><ellipse cx="100" cy="112" rx="44" ry="11" fill="${c.b}"/><ellipse cx="100" cy="109" rx="44" ry="11" fill="${c.c}" opacity=".5"/><rect x="68" y="136" width="64" height="34" rx="5" fill="${c.c}" opacity=".92"/><path d="M78 150h44M78 160h28" stroke="${c.b}" stroke-width="2" stroke-linecap="round"/>`;
-const tote = (c) => `<ellipse cx="100" cy="204" rx="52" ry="7" fill="#000" opacity=".12"/><path d="M72 118c0-34 56-34 56 0" fill="none" stroke="${c.b}" stroke-width="7" stroke-linecap="round"/><rect x="52" y="112" width="96" height="92" rx="8" fill="${c.a}"/><g stroke="${c.c}" stroke-width="3" opacity=".6"><path d="M52 140h96M52 160h96M52 180h96"/></g><g stroke="${c.b}" stroke-width="3" opacity=".5"><path d="M76 112v92M100 112v92M124 112v92"/></g>`;
-const basket = (c) => `<ellipse cx="100" cy="204" rx="62" ry="8" fill="#000" opacity=".12"/><path d="M52 124h96l-10 76H62z" fill="${c.a}"/><ellipse cx="100" cy="124" rx="48" ry="11" fill="${c.b}"/><g stroke="${c.c}" stroke-width="3" opacity=".55"><path d="M58 146h84M62 168h76M64 186h72"/></g><g stroke="${c.b}" stroke-width="3" opacity=".5"><path d="M78 126l-6 74M100 130v70M122 126l6 74"/></g><path d="M64 124c6-46 66-46 72 0" fill="none" stroke="${c.b}" stroke-width="6" stroke-linecap="round"/>`;
-const necklace = (c) => `<ellipse cx="100" cy="196" rx="58" ry="10" fill="#000" opacity=".12"/><path d="M38 70c6 70 30 102 62 102s56-32 62-102" fill="none" stroke="${c.b}" stroke-width="3.5" stroke-linecap="round"/><circle cx="100" cy="172" r="15" fill="${c.c}"/><circle cx="96" cy="168" r="5" fill="#fff" opacity=".8"/><circle cx="100" cy="172" r="15" fill="none" stroke="${c.b}" stroke-width="4"/>`;
-const wax = (c) => `<ellipse cx="100" cy="206" rx="64" ry="7" fill="#000" opacity=".1"/><rect x="42" y="96" width="116" height="104" rx="12" fill="${c.a}"/><g fill="${c.c}" opacity=".75"><circle cx="70" cy="122" r="12"/><circle cx="130" cy="122" r="12"/><circle cx="100" cy="152" r="12"/><circle cx="70" cy="180" r="12"/><circle cx="130" cy="180" r="12"/></g><g fill="none" stroke="${c.b}" stroke-width="3" opacity=".6"><circle cx="70" cy="122" r="19"/><circle cx="130" cy="122" r="19"/><circle cx="100" cy="152" r="19"/><circle cx="70" cy="180" r="19"/><circle cx="130" cy="180" r="19"/></g>`;
-const pick = (p, c) => {
-  const t = (p.nom + ' ' + p.slug).toLowerCase();
-  if (p.categorie === 'Alimentation' && /huile|sirop|vinaigre/.test(t)) return bottle(c);
-  if (p.categorie === 'Alimentation' && /th[eé]/.test(t)) return tin(c);
-  if (p.categorie === 'Cadeaux et objets culturels' && /th[eé]/.test(t)) return tin(c);
-  if (/\bsac\b/.test(t)) return tote(c);
-  if (/panier/.test(t)) return basket(c);
-  if (/collier/.test(t)) return necklace(c);
-  if (/wax/.test(t)) return wax(c);
-  return (SCENES[p.categorie] || SCENES['Décoration'])(c);
+const COLORS = { Afrique: ['#BF5A33', '#fff'], Europe: ['#B0506A', '#fff'], Asie: ['#2F5D50', '#fff'], 'Amériques': ['#E3B565', '#2B2622'], 'Océanie': ['#1F3D34', '#fff'] };
+const GLYPH = {
+  'Alimentation': 'M3 11h18c0 5-4 9-9 9s-9-4-9-9z M8 4v3 M12 3v4 M16 4v3',
+  'Vêtements et textiles': 'M8 3L3 7l3 3 2-1v12h8V9l2 1 3-3-5-4c-1 2-7 2-8 0z',
+  'Accessoires et bijoux': 'M12 3l8 7-8 11L4 10z M4 10h16',
+  'Cosmétiques et bien-être': 'M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z',
+  'Artisanat': 'M9 3h6 M10 3c0 4-4 5-4 11 0 4 3 7 6 7s6-3 6-7c0-6-4-7-4-11',
+  'Décoration': 'M5 19C5 9 11 4 20 4c0 9-5 15-15 15z M5 19l8-8',
+  'Cadeaux et objets culturels': 'M4 9h16v11H4z M3 6h18v3H3z M12 6v14 M12 6c-2-3-5-3-5-1s3 1 5 1c2 0 5 1 5-1s-3-2-5 1'
 };
 const art = (p) => {
-  const c = palOf(p);
-  const scene = pick(p, c);
-  return `<svg class="art" style="background:linear-gradient(${c.top},${c.bot})" viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><circle cx="160" cy="40" r="70" fill="#fff" opacity=".16"/><g transform="translate(0 14)">${scene}</g></svg>`;
+  const [bg, fg] = COLORS[p.continent];
+  return `<svg class="art" viewBox="0 0 200 150" aria-hidden="true" focusable="false"><rect width="200" height="150" fill="${bg}"/><circle cx="165" cy="25" r="62" fill="#fff" opacity=".13"/><circle cx="25" cy="140" r="48" fill="#fff" opacity=".1"/><g transform="translate(71 46) scale(2.4)" fill="none" stroke="${fg}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="${GLYPH[p.categorie]}"/></g></svg>`;
 };
-/* Photos : si public/assets/photos/<slug>.webp existe, elle remplace l'illustration. */
-const hasPhoto = (slug) => existsSync(join(root, 'public', 'assets', 'photos', `${slug}.webp`));
-const media = (p, { alt = '', eager = false } = {}) => hasPhoto(p.slug)
-  ? `<img class="photo" src="/assets/photos/${p.slug}.webp" alt="${esc(alt)}" width="640" height="800" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`
-  : art(p);
 const card = (p, i, h = 3) => `<li class="card prod" data-idx="${i}" data-nom="${esc(norm(p.nom))}" data-cat="${esc(p.categorie)}" data-pays="${esc(p.pays)}" data-cont="${esc(p.continent)}" data-prix="${p.prix}" data-ship="${p.livrable.join(' ')}" data-txt="${esc(norm([p.nom, p.pays, p.continent, p.categorie, p.description].join(' ')))}">
-  <div class="pimg">${media(p)}</div>
+  <div class="pimg">${art(p)}</div>
   <div class="pbody"><p class="small">${esc(p.pays)} · ${esc(p.categorie)}</p><h${h}><a class="stretch" href="/produit/${p.slug}">${esc(p.nom)}</a></h${h}><p class="price">${eur(p.prix)}</p><p class="meta">${esc(p.unite)}</p></div>
 </li>`;
 const demoNote = '<p class="demo-note"><strong>Démonstration :</strong> produits, vendeurs, prix et frais fictifs. Aucune commande réelle n’est possible.</p>';
@@ -157,7 +123,7 @@ P.forEach((p) => {
     ${crumbs(items)}
     ${demoNote}
     <div class="pdp">
-      <div class="pdp__img">${media(p, { alt: `${p.nom}, ${p.pays}`, eager: true })}</div>
+      <div class="pdp__img">${art(p)}</div>
       <div class="pdp__info">
         <p class="small">${esc(p.pays)} · ${esc(p.continent)} · ${esc(p.categorie)}</p>
         <h1>${esc(p.nom)}</h1>
@@ -233,8 +199,6 @@ write('plan-du-site.html', head({ title: 'Plan du site', desc: 'Toutes les pages
 sitemapEntries.push({ url: '/plan-du-site', indexable: true, title: 'Plan du site' });
 
 /* ---------- Accueil : sélection et données structurées ---------- */
-const mosaicSlugs = ['tissu-wax-6-yards', 'assiette-ceramique-peinte', 'bijou-argent-mexique', 'the-vert-sencha'];
-const mosaic = `<ul class="mosaic" role="list">${mosaicSlugs.map((s) => PBY[s]).filter(Boolean).map((p) => `<li class="tile" style="--c:${palOf(p).top}">${media(p)}<span class="tag"><b>${esc(p.categorie.split(' ')[0])}</b> ${esc(p.continent)}</span></li>`).join('')}</ul>`;
 const selection = ['tissu-wax-6-yards', 'the-vert-sencha', 'huile-olive-vierge-extra', 'sirop-erable-canada']
   .map((s) => P.find((p) => p.slug === s)).filter(Boolean);
 const homeLd = [
@@ -268,21 +232,19 @@ const relUrl = (u, depth) => {
   return prefix + p + (q ? '?' + q : '') + (hash !== undefined ? '#' + hash : '');
 };
 
-const ASSET_V = Object.fromEntries(['styles.css', 'main.js', 'shop.js', 'config.js'].map((f) => [f, createHash('md5').update(readFileSync(join(out, f))).digest('hex').slice(0, 8)]));
 const files = walk(out).filter((f) => f.endsWith('.html'));
 for (const f of files) {
   const rel = relPath(out, f).split('\\').join('/');
   const depth = rel.split('/').length - 1;
   const pageUrl = rel === 'index.html' ? '/' : '/' + rel.replace(/\.html$/, '');
   let html = readFileSync(f, 'utf8').replace('<!--@header-->', header).replace('<!--@footer-->', footer);
-  if (rel === 'index.html') html = html.replace('<!--@mosaic-->', mosaic).replace('<!--@jsonld-->', JSON.stringify(homeLd).replace(/</g, '\\u003c'))
+  if (rel === 'index.html') html = html.replace('<!--@jsonld-->', JSON.stringify(homeLd).replace(/</g, '\\u003c'))
     .replace('<!--@selection-->', `    <section class="section" id="selection" aria-labelledby="t-sel">
       <div class="section__head"><p class="eyebrow">Sélection</p><h2 id="t-sel">À découvrir</h2><p class="sub">Quatre produits de démonstration, pour montrer ce que contiendront les fiches : origine, vendeur, prix et livraison.</p></div>
-      <ul class="grid grid--prod" role="list">${selection.map((p, i) => card(p, i, 3)).join('')}</ul>
+      <ul class="grid grid--prod" role="list">${selection.map(card).join('')}</ul>
       <p><a class="btn btn--green" href="/catalogue">Voir tout le catalogue</a></p>
     </section>`);
   if (!/<script src="\/shop\.js"/.test(html)) html = html.replace('</head>', '  <script src="/shop.js" defer></script>\n</head>');
-  html = html.replace(/(href|src)="(\/(?:styles\.css|main\.js|shop\.js|config\.js))"/g, (m, a, u) => `${a}="${u}?v=${ASSET_V[u.slice(1)]}"`);
   if (!/name="robots" content="noindex"/.test(html) && !/rel="canonical"/.test(html)) html = html.replace('</head>', `  <link rel="canonical" href="${SITE}${pageUrl}">\n</head>`);
   // lien courant dans la navigation
   html = html.replace(new RegExp(`(<a href="${pageUrl.replace(/[/.]/g, '\\$&')}")(>)`, 'g'), (m, a, b, off) => off > html.indexOf('class="nav__links"') && off < html.indexOf('</header>') ? `${a} aria-current="page"${b}` : m);
@@ -294,17 +256,15 @@ for (const f of files) {
 
 /* ---------- Poids des pages (page Écoconception) ---------- */
 const size = (f) => statSync(join(out, f)).size;
-const BUDGET_KB = 300;
-const photosOf = (f) => [...new Set((readFileSync(join(out, f), 'utf8').match(/assets\/photos\/[\w.-]+\.webp/g) || []))];
-const homeFiles = ['index.html', 'styles.css', 'main.js', 'shop.js', 'config.js', 'assets/logo-emblem.svg', ...photosOf('index.html')];
+const homeFiles = ['index.html', 'styles.css', 'main.js', 'shop.js', 'config.js', 'assets/logo-emblem.svg'];
+const kb = (n) => Math.round(n / 102.4) / 10;
 const homeKb = Math.round(homeFiles.reduce((n, f) => n + size(f), 0) / 1024);
 const shared = ['styles.css', 'shop.js', 'assets/logo-emblem.svg'].reduce((n, f) => n + size(f), 0);
-const pageKb = (f) => Math.round((size(f) + shared + photosOf(f).reduce((n, x) => n + size(x), 0)) / 1024);
-const nPhotos = existsSync(join(out, 'assets', 'photos')) ? readdirSync(join(out, 'assets', 'photos')).filter((x) => x.endsWith('.webp')).length : 0;
+const pageKb = (f) => Math.round((size(f) + shared) / 1024);
 const eco = join(out, 'ecoconception.html');
 writeFileSync(eco, readFileSync(eco, 'utf8')
   .replace('<!--@weight-->', String(homeKb)).replace('<!--@requests-->', String(homeFiles.length))
   .replace('<!--@w-catalogue-->', String(pageKb('catalogue.html'))).replace('<!--@w-produit-->', String(pageKb('produit/miel-de-manuka.html'))));
-console.log(`Build terminé → ${relPath(root, out)}/ | accueil ${homeKb} Ko (${homeFiles.length} requêtes), catalogue ${pageKb('catalogue.html')} Ko, produit ${pageKb('produit/miel-de-manuka.html')} Ko, panier ${pageKb('panier.html')} Ko | photos : ${nPhotos}/${P.length}`);
-const budget = { 'index.html': [homeKb, BUDGET_KB], 'catalogue.html': [pageKb('catalogue.html'), BUDGET_KB], 'produit/miel-de-manuka.html': [pageKb('produit/miel-de-manuka.html'), BUDGET_KB] };
+console.log(`Build terminé → ${relPath(root, out)}/ | accueil ${homeKb} Ko (${homeFiles.length} requêtes), catalogue ${pageKb('catalogue.html')} Ko, produit ${pageKb('produit/miel-de-manuka.html')} Ko, panier ${pageKb('panier.html')} Ko`);
+const budget = { 'index.html': [homeKb, 100], 'catalogue.html': [pageKb('catalogue.html'), 100], 'produit/miel-de-manuka.html': [pageKb('produit/miel-de-manuka.html'), 100] };
 for (const [k, [v, max]] of Object.entries(budget)) if (v > max) { console.error(`Budget dépassé : ${k} = ${v} Ko (max ${max} Ko)`); process.exitCode = 1; }

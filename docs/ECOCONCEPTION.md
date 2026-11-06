@@ -31,7 +31,7 @@ Le build échoue si une page dépasse son budget (HTML, CSS, JS et logo, hors ph
 
 | Page | Poids maximal (non compressé) |
 |---|---|
-| Accueil, catalogue, fiche produit (photos affichées comprises) | 300 Ko |
+| Accueil, catalogue, fiche produit | 100 Ko |
 | Photographies produit (futur) | à fixer après mesure : AVIF/WebP, dimensions adaptées, `loading="lazy"` |
 
 ## Pour le catalogue (futur)
