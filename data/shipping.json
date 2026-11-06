@@ -1,0 +1,46 @@
+{
+ "destinations": [
+  {
+   "code": "FR",
+   "nom": "France",
+   "prix": 590,
+   "delai": "3 à 5 jours"
+  },
+  {
+   "code": "EU",
+   "nom": "Union européenne (hors France)",
+   "prix": 890,
+   "delai": "5 à 8 jours"
+  },
+  {
+   "code": "UK",
+   "nom": "Royaume-Uni",
+   "prix": 1190,
+   "delai": "6 à 10 jours"
+  },
+  {
+   "code": "NA",
+   "nom": "Amérique du Nord",
+   "prix": 1590,
+   "delai": "8 à 14 jours"
+  },
+  {
+   "code": "AS",
+   "nom": "Asie",
+   "prix": 1690,
+   "delai": "8 à 14 jours"
+  },
+  {
+   "code": "OC",
+   "nom": "Océanie",
+   "prix": 1990,
+   "delai": "10 à 18 jours"
+  },
+  {
+   "code": "AF",
+   "nom": "Afrique",
+   "prix": 1590,
+   "delai": "8 à 15 jours"
+  }
+ ]
+}

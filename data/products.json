@@ -1,0 +1,662 @@
+{
+ "demo": true,
+ "produits": [
+  {
+   "slug": "melange-epices-ras-el-hanout",
+   "nom": "Mélange d’épices ras el hanout",
+   "pays": "Maroc",
+   "continent": "Afrique",
+   "categorie": "Alimentation",
+   "prix": 890,
+   "unite": "Sachet de 100 g",
+   "stock": 40,
+   "vendeur": {
+    "nom": "Atelier des Souks (fictif)",
+    "lieu": "Marrakech, Maroc"
+   },
+   "description": "Un mélange d’épices tiède et parfumé pour tajines, couscous et viandes mijotées.",
+   "histoire": "Chaque famille d’épiciers compose son propre mélange. Cette version démonstration illustre la fiche attendue : histoire de la recette, provenance des épices et identité de l’atelier.",
+   "details": [
+    {
+     "label": "Poids",
+     "valeur": "100 g"
+    },
+    {
+     "label": "Conservation",
+     "valeur": "À l’abri de la lumière et de l’humidité"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS",
+    "AF"
+   ],
+   "reglementaire": "Denrée alimentaire : liste des ingrédients, allergènes, date limite et origine à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "beurre-de-karite-brut",
+   "nom": "Beurre de karité brut",
+   "pays": "Ghana",
+   "continent": "Afrique",
+   "categorie": "Cosmétiques et bien-être",
+   "prix": 1250,
+   "unite": "Pot de 200 g",
+   "stock": 25,
+   "vendeur": {
+    "nom": "Coopérative Nafaso (fictive)",
+    "lieu": "Tamale, Ghana"
+   },
+   "description": "Un beurre de karité brut pour la peau et les cheveux, à la texture dense.",
+   "histoire": "Le karité est traditionnellement transformé en coopérative. La fiche détaillerait la coopérative, la méthode d’extraction et les informations de traçabilité disponibles.",
+   "details": [
+    {
+     "label": "Contenance",
+     "valeur": "200 g"
+    },
+    {
+     "label": "Ingrédient",
+     "valeur": "Beurre de karité"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS",
+    "OC",
+    "AF"
+   ],
+   "reglementaire": "Cosmétique : liste INCI, numéro de notification et précautions d'emploi à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "tissu-wax-6-yards",
+   "nom": "Tissu wax, coupon de 6 yards",
+   "pays": "Sénégal",
+   "continent": "Afrique",
+   "categorie": "Vêtements et textiles",
+   "prix": 3400,
+   "unite": "Coupon de 6 yards (environ 5,5 m)",
+   "stock": 18,
+   "vendeur": {
+    "nom": "Maison Taali (fictive)",
+    "lieu": "Dakar, Sénégal"
+   },
+   "description": "Un coupon de coton imprimé aux motifs géométriques colorés, pour confectionner tenues et accessoires.",
+   "histoire": "Les motifs wax portent des noms et des histoires. La fiche détaillerait le motif, l’atelier d’impression et la composition exacte.",
+   "details": [
+    {
+     "label": "Matière",
+     "valeur": "Coton (démonstration)"
+    },
+    {
+     "label": "Longueur",
+     "valeur": "Environ 5,5 m"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS",
+    "OC",
+    "AF"
+   ],
+   "reglementaire": "Informations réglementaires propres au produit (matières, normes, marquage) à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "panier-tresse-paille",
+   "nom": "Panier tressé en fibres naturelles",
+   "pays": "Sénégal",
+   "continent": "Afrique",
+   "categorie": "Artisanat",
+   "prix": 2800,
+   "unite": "Diamètre environ 30 cm",
+   "stock": 12,
+   "vendeur": {
+    "nom": "Tisseuses de Thiès (fictives)",
+    "lieu": "Thiès, Sénégal"
+   },
+   "description": "Un panier tressé à la main, solide, pour le rangement ou la décoration.",
+   "histoire": "Le tressage se transmet de génération en génération. La fiche présenterait l’artisane ou le collectif et les fibres utilisées.",
+   "details": [
+    {
+     "label": "Dimensions",
+     "valeur": "Diamètre environ 30 cm"
+    },
+    {
+     "label": "Fabrication",
+     "valeur": "Tressé à la main"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS",
+    "OC",
+    "AF"
+   ],
+   "reglementaire": "Informations réglementaires propres au produit (matières, normes, marquage) à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "huile-olive-vierge-extra",
+   "nom": "Huile d’olive vierge extra",
+   "pays": "Grèce",
+   "continent": "Europe",
+   "categorie": "Alimentation",
+   "prix": 1490,
+   "unite": "Bouteille de 500 ml",
+   "stock": 60,
+   "vendeur": {
+    "nom": "Domaine Eleonas (fictif)",
+    "lieu": "Péloponnèse, Grèce"
+   },
+   "description": "Une huile fruitée de première pression à froid, pour assaisonner et finir les plats.",
+   "histoire": "Les oliviers du domaine sont récoltés à la main à l’automne. La fiche détaillerait le domaine, la variété et la date de récolte.",
+   "details": [
+    {
+     "label": "Contenance",
+     "valeur": "500 ml"
+    },
+    {
+     "label": "Type",
+     "valeur": "Vierge extra, première pression à froid"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS"
+   ],
+   "reglementaire": "Denrée alimentaire : liste des ingrédients, allergènes, date limite et origine à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "assiette-ceramique-peinte",
+   "nom": "Assiette en céramique peinte à la main",
+   "pays": "Portugal",
+   "continent": "Europe",
+   "categorie": "Décoration",
+   "prix": 1950,
+   "unite": "Diamètre 24 cm",
+   "stock": 22,
+   "vendeur": {
+    "nom": "Olaria do Vale (fictive)",
+    "lieu": "Coimbra, Portugal"
+   },
+   "description": "Une assiette décorative aux motifs peints un à un, chaque pièce est unique.",
+   "histoire": "La céramique peinte est une tradition régionale. La fiche indiquerait l’atelier, la technique d’émaillage et l’entretien.",
+   "details": [
+    {
+     "label": "Diamètre",
+     "valeur": "24 cm"
+    },
+    {
+     "label": "Fabrication",
+     "valeur": "Peinte à la main, pièce unique"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK"
+   ],
+   "reglementaire": "Informations réglementaires propres au produit (matières, normes, marquage) à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "echarpe-laine-ecosse",
+   "nom": "Écharpe en laine tissée",
+   "pays": "Royaume-Uni",
+   "continent": "Europe",
+   "categorie": "Vêtements et textiles",
+   "prix": 3900,
+   "unite": "Longueur 180 cm",
+   "stock": 15,
+   "vendeur": {
+    "nom": "Tweedside Mill (fictive)",
+    "lieu": "Galashiels, Écosse"
+   },
+   "description": "Une écharpe chaude en laine tissée, aux tons naturels.",
+   "histoire": "Le tissage de la laine est ancré dans la région. La fiche donnerait l’origine de la laine et la filature.",
+   "details": [
+    {
+     "label": "Matière",
+     "valeur": "Laine (démonstration)"
+    },
+    {
+     "label": "Longueur",
+     "valeur": "180 cm"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS",
+    "OC"
+   ],
+   "reglementaire": "Informations réglementaires propres au produit (matières, normes, marquage) à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "the-vert-sencha",
+   "nom": "Thé vert sencha",
+   "pays": "Japon",
+   "continent": "Asie",
+   "categorie": "Alimentation",
+   "prix": 1600,
+   "unite": "Boîte de 100 g",
+   "stock": 50,
+   "vendeur": {
+    "nom": "Jardin de Shizuoka (fictif)",
+    "lieu": "Shizuoka, Japon"
+   },
+   "description": "Un thé vert vif aux notes végétales, à infuser à basse température.",
+   "histoire": "Le thé est récolté au printemps puis vapeur-traité. La fiche présenterait la plantation, la récolte et les conseils d’infusion.",
+   "details": [
+    {
+     "label": "Poids",
+     "valeur": "100 g"
+    },
+    {
+     "label": "Infusion",
+     "valeur": "70 à 80 °C, 1 à 2 minutes"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS"
+   ],
+   "reglementaire": "Denrée alimentaire : liste des ingrédients, allergènes, date limite et origine à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "foulard-soie-thailande",
+   "nom": "Foulard en soie",
+   "pays": "Thaïlande",
+   "continent": "Asie",
+   "categorie": "Vêtements et textiles",
+   "prix": 4200,
+   "unite": "Format 90 × 90 cm",
+   "stock": 14,
+   "vendeur": {
+    "nom": "Atelier Chiang Mai Silk (fictif)",
+    "lieu": "Chiang Mai, Thaïlande"
+   },
+   "description": "Un foulard en soie aux couleurs profondes, léger et doux.",
+   "histoire": "La soie thaïlandaise est tissée sur métiers traditionnels. La fiche détaillerait l’atelier et la teinture.",
+   "details": [
+    {
+     "label": "Matière",
+     "valeur": "Soie (démonstration)"
+    },
+    {
+     "label": "Format",
+     "valeur": "90 × 90 cm"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS",
+    "OC",
+    "AF"
+   ],
+   "reglementaire": "Informations réglementaires propres au produit (matières, normes, marquage) à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "service-the-porcelaine",
+   "nom": "Service à thé en porcelaine",
+   "pays": "Chine",
+   "continent": "Asie",
+   "categorie": "Décoration",
+   "prix": 3600,
+   "unite": "Théière et 4 tasses",
+   "stock": 10,
+   "vendeur": {
+    "nom": "Manufacture de Jingdezhen (fictive)",
+    "lieu": "Jingdezhen, Chine"
+   },
+   "description": "Une théière et quatre tasses en porcelaine fine, pour les amateurs de thé.",
+   "histoire": "Jingdezhen est une ville de porcelaine depuis des siècles. La fiche présenterait la manufacture et la cuisson.",
+   "details": [
+    {
+     "label": "Contenu",
+     "valeur": "1 théière, 4 tasses"
+    },
+    {
+     "label": "Entretien",
+     "valeur": "Lavage à la main conseillé"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA"
+   ],
+   "reglementaire": "Informations réglementaires propres au produit (matières, normes, marquage) à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "pate-curry-vert",
+   "nom": "Pâte de curry vert",
+   "pays": "Thaïlande",
+   "continent": "Asie",
+   "categorie": "Alimentation",
+   "prix": 490,
+   "unite": "Pot de 100 g",
+   "stock": 80,
+   "vendeur": {
+    "nom": "Maison Kaeng (fictive)",
+    "lieu": "Bangkok, Thaïlande"
+   },
+   "description": "Une pâte de curry vert parfumée, prête à diluer dans du lait de coco.",
+   "histoire": "Les pâtes de curry se préparent traditionnellement au mortier. La fiche détaillerait la recette et les ingrédients.",
+   "details": [
+    {
+     "label": "Poids",
+     "valeur": "100 g"
+    },
+    {
+     "label": "Conservation",
+     "valeur": "Au frais après ouverture"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS"
+   ],
+   "reglementaire": "Denrée alimentaire : liste des ingrédients, allergènes, date limite et origine à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "coffret-thes-asie",
+   "nom": "Coffret cadeau de thés d’Asie",
+   "pays": "Japon",
+   "continent": "Asie",
+   "categorie": "Cadeaux et objets culturels",
+   "prix": 2700,
+   "unite": "Coffret de 4 boîtes",
+   "stock": 16,
+   "vendeur": {
+    "nom": "Jardin de Shizuoka (fictif)",
+    "lieu": "Shizuoka, Japon"
+   },
+   "description": "Un coffret de quatre thés pour découvrir plusieurs traditions et leurs usages.",
+   "histoire": "Chaque thé est accompagné d’une carte racontant son origine et sa façon de l’infuser, pour offrir en comprenant ce que l’on offre.",
+   "details": [
+    {
+     "label": "Contenu",
+     "valeur": "4 boîtes de 30 g"
+    },
+    {
+     "label": "Occasion",
+     "valeur": "Cadeau, découverte"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS"
+   ],
+   "reglementaire": "Denrée alimentaire : liste des ingrédients, allergènes, date limite et origine à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "sirop-erable-canada",
+   "nom": "Sirop d’érable",
+   "pays": "Canada",
+   "continent": "Amériques",
+   "categorie": "Alimentation",
+   "prix": 1350,
+   "unite": "Bouteille de 250 ml",
+   "stock": 45,
+   "vendeur": {
+    "nom": "Cabane Sucrée Laurentides (fictive)",
+    "lieu": "Québec, Canada"
+   },
+   "description": "Un sirop d’érable ambré, pour crêpes, yaourts et pâtisseries.",
+   "histoire": "L’eau d’érable est récoltée à la fin de l’hiver, puis réduite. La fiche détaillerait l’érablière et la classe du sirop.",
+   "details": [
+    {
+     "label": "Contenance",
+     "valeur": "250 ml"
+    },
+    {
+     "label": "Ingrédient",
+     "valeur": "Sirop d’érable"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS"
+   ],
+   "reglementaire": "Denrée alimentaire : liste des ingrédients, allergènes, date limite et origine à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "vanille-mexique",
+   "nom": "Gousses de vanille",
+   "pays": "Mexique",
+   "continent": "Amériques",
+   "categorie": "Alimentation",
+   "prix": 1590,
+   "unite": "Tube de 3 gousses",
+   "stock": 30,
+   "vendeur": {
+    "nom": "Vainilla del Totonacapan (fictive)",
+    "lieu": "Papantla, Mexique"
+   },
+   "description": "Trois gousses de vanille parfumées, pour desserts, crèmes et boissons.",
+   "histoire": "La vanille est pollinisée à la main. La fiche détaillerait la culture et le séchage.",
+   "details": [
+    {
+     "label": "Contenu",
+     "valeur": "3 gousses"
+    },
+    {
+     "label": "Conservation",
+     "valeur": "Tube fermé, à l’abri de la chaleur"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS"
+   ],
+   "reglementaire": "Denrée alimentaire : liste des ingrédients, allergènes, date limite et origine à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "sac-textile-tisse",
+   "nom": "Sac en textile tissé",
+   "pays": "Guatemala",
+   "continent": "Amériques",
+   "categorie": "Accessoires et bijoux",
+   "prix": 2900,
+   "unite": "Largeur environ 35 cm",
+   "stock": 20,
+   "vendeur": {
+    "nom": "Cooperativa Ixchel (fictive)",
+    "lieu": "Sololá, Guatemala"
+   },
+   "description": "Un sac en textile tissé aux motifs colorés, doublé et solide.",
+   "histoire": "Le tissage au métier à la ceinture se transmet entre femmes d’un même village. La fiche présenterait la coopérative et les motifs.",
+   "details": [
+    {
+     "label": "Matière",
+     "valeur": "Coton (démonstration)"
+    },
+    {
+     "label": "Largeur",
+     "valeur": "Environ 35 cm"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS",
+    "OC",
+    "AF"
+   ],
+   "reglementaire": "Informations réglementaires propres au produit (matières, normes, marquage) à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "bijou-argent-mexique",
+   "nom": "Bague en argent ciselé",
+   "pays": "Mexique",
+   "continent": "Amériques",
+   "categorie": "Accessoires et bijoux",
+   "prix": 4800,
+   "unite": "Taille réglable",
+   "stock": 9,
+   "vendeur": {
+    "nom": "Platería Taxco (fictive)",
+    "lieu": "Taxco, Mexique"
+   },
+   "description": "Une bague en argent ciselé à la main, au motif végétal.",
+   "histoire": "Taxco est connue pour son orfèvrerie. La fiche indiquerait l’atelier, le titre du métal et le poinçon.",
+   "details": [
+    {
+     "label": "Matière",
+     "valeur": "Argent 925 (démonstration)"
+    },
+    {
+     "label": "Taille",
+     "valeur": "Réglable"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS"
+   ],
+   "reglementaire": "Informations réglementaires propres au produit (matières, normes, marquage) à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "miel-de-manuka",
+   "nom": "Miel de manuka",
+   "pays": "Nouvelle-Zélande",
+   "continent": "Océanie",
+   "categorie": "Alimentation",
+   "prix": 2990,
+   "unite": "Pot de 250 g",
+   "stock": 20,
+   "vendeur": {
+    "nom": "Rātā Honey Co. (fictive)",
+    "lieu": "Rotorua, Nouvelle-Zélande"
+   },
+   "description": "Un miel épais et foncé, au goût prononcé, à déguster à la cuillère.",
+   "histoire": "Les abeilles butinent le manuka au printemps. La fiche présenterait l’apiculteur et les analyses disponibles, sans allégation de santé.",
+   "details": [
+    {
+     "label": "Poids",
+     "valeur": "250 g"
+    },
+    {
+     "label": "Ingrédient",
+     "valeur": "Miel"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS"
+   ],
+   "reglementaire": "Denrée alimentaire : liste des ingrédients, allergènes, date limite et origine à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "plaid-laine-merinos",
+   "nom": "Plaid en laine mérinos",
+   "pays": "Nouvelle-Zélande",
+   "continent": "Océanie",
+   "categorie": "Décoration",
+   "prix": 7400,
+   "unite": "Format 130 × 170 cm",
+   "stock": 8,
+   "vendeur": {
+    "nom": "Southern Fleece (fictive)",
+    "lieu": "Canterbury, Nouvelle-Zélande"
+   },
+   "description": "Un plaid doux et chaud en laine mérinos, pour le canapé ou le lit.",
+   "histoire": "La laine mérinos est élevée dans les hautes terres. La fiche donnerait la ferme d’origine et le mode d’entretien.",
+   "details": [
+    {
+     "label": "Matière",
+     "valeur": "Laine mérinos (démonstration)"
+    },
+    {
+     "label": "Format",
+     "valeur": "130 × 170 cm"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS",
+    "OC",
+    "AF"
+   ],
+   "reglementaire": "Informations réglementaires propres au produit (matières, normes, marquage) à renseigner par le vendeur avant publication."
+  },
+  {
+   "slug": "collier-perle-tahiti",
+   "nom": "Collier avec perle de culture de Tahiti",
+   "pays": "Polynésie française",
+   "continent": "Océanie",
+   "categorie": "Accessoires et bijoux",
+   "prix": 8500,
+   "unite": "Chaîne de 45 cm",
+   "stock": 6,
+   "vendeur": {
+    "nom": "Perles du Lagon (fictives)",
+    "lieu": "Rangiroa, Polynésie française"
+   },
+   "description": "Un collier avec une perle de culture, sur chaîne fine.",
+   "histoire": "Les perles sont cultivées dans les lagons des Tuamotu. La fiche détaillerait la ferme perlière et le classement de la perle.",
+   "details": [
+    {
+     "label": "Matière",
+     "valeur": "Perle de culture, argent (démonstration)"
+    },
+    {
+     "label": "Longueur",
+     "valeur": "45 cm"
+    }
+   ],
+   "livrable": [
+    "FR",
+    "EU",
+    "UK",
+    "NA",
+    "AS"
+   ],
+   "reglementaire": "Informations réglementaires propres au produit (matières, normes, marquage) à renseigner par le vendeur avant publication."
+  }
+ ]
+}

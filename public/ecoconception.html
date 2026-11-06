@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Écoconception – Revia.</title>
+  <meta name="description" content="Démarche d’écoconception du site Revia : poids de page, choix techniques et engagements.">
+  <meta name="theme-color" content="#2F5D50">
+  <link rel="icon" href="/assets/logo-emblem.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+<!--@header-->
+
+  <main id="contenu" tabindex="-1" class="prose">
+    <h1>Écoconception</h1>
+    <p>Un site web consomme de l'énergie à chaque visite : fabrication des appareils, réseau, serveurs. Revia limite cet impact dès la conception, en suivant les principes du Référentiel général d'écoconception de services numériques (RGESN).</p>
+
+    <h2>Poids de la page d'accueil</h2>
+    <p>Poids avant compression, HTML, CSS, JavaScript et logo compris :</p>
+    <ul>
+      <li>Accueil : environ <strong><!--@weight--> Ko</strong>, en <strong><!--@requests--> requêtes</strong>.</li>
+      <li>Catalogue (19 produits de démonstration) : environ <strong><!--@w-catalogue--> Ko</strong>.</li>
+      <li>Fiche produit : environ <strong><!--@w-produit--> Ko</strong>.</li>
+    </ul>
+    <p>Ces valeurs sont recalculées à chaque mise en ligne. Il s'agit d'un état initial : les objectifs de réduction seront fixés après mesure en conditions réelles.</p>
+
+    <h2>Nos choix</h2>
+    <ul>
+      <li><strong>Aucune police chargée</strong> : le site utilise les polices déjà présentes sur votre appareil.</li>
+      <li><strong>Aucune bibliothèque externe</strong> : pas de framework, pas de service tiers, pas de réseau de diffusion externe.</li>
+      <li><strong>Pas de vidéo, pas de lecture automatique, pas de carrousel.</strong></li>
+      <li><strong>Images vectorielles légères</strong> (SVG) : aucune photographie dans cette démonstration.</li>
+      <li><strong>Catalogue sans requête réseau</strong> : filtres et tri s'exécutent dans la page, sans appel serveur.</li>
+      <li><strong>Aucun traceur</strong> ni outil de mesure d'audience.</li>
+      <li><strong>Contenu lisible sans JavaScript</strong> : le script ne sert qu'au formulaire.</li>
+      <li><strong>Mise en cache</strong> et compression des fichiers par l'hébergeur.</li>
+      <li><strong>Un site conçu pour durer</strong> : matériel ancien et connexions lentes pris en compte.</li>
+    </ul>
+
+    <h2>Pour la suite</h2>
+    <ul>
+      <li>Photographies du catalogue : formats modernes (AVIF, WebP), dimensions adaptées, chargement différé.</li>
+      <li>Budget de poids fixé par page et vérifié à chaque mise en ligne.</li>
+      <li>Hébergement avec électricité à faible empreinte carbone, à étudier.</li>
+    </ul>
+
+  </main>
+
+<!--@footer-->
+</body>
+</html>

@@ -1,0 +1,24 @@
+  <header class="nav">
+    <a class="logo" href="/" aria-label="Revia, accueil">
+      <img src="/assets/logo-emblem.svg" width="44" height="44" alt="">
+      <span class="logo__word">Revia<b>.</b></span>
+    </a>
+    <form class="hsearch" role="search" action="/catalogue" method="get">
+      <label class="sr" for="hq">Rechercher un produit, un pays ou une catégorie</label>
+      <input id="hq" name="q" type="search" placeholder="Un produit, un pays…" autocomplete="off">
+      <button class="btn btn--green" type="submit">Rechercher</button>
+    </form>
+    <div class="nav__tools">
+      <a class="cartlink" href="/panier">Panier<span class="cart-count"></span></a>
+      <a class="btn btn--ghost" href="/vendeurs">Vendre sur Revia</a>
+    </div>
+    <nav class="nav__links" aria-label="Navigation principale">
+      <ul role="list">
+        <li><a href="/catalogue">Catalogue</a></li>
+        <li><a href="/#pays">Pays</a></li>
+        <li><a href="/#categories">Catégories</a></li>
+        <li><a href="/vendeurs">Vendeurs</a></li>
+        <li><a href="/a-propos">À propos</a></li>
+      </ul>
+    </nav>
+  </header>
