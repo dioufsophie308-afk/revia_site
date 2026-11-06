@@ -241,7 +241,7 @@ for (const f of files) {
   if (rel === 'index.html') html = html.replace('<!--@jsonld-->', JSON.stringify(homeLd).replace(/</g, '\\u003c'))
     .replace('<!--@selection-->', `    <section class="section" id="selection" aria-labelledby="t-sel">
       <div class="section__head"><p class="eyebrow">Sélection</p><h2 id="t-sel">À découvrir</h2><p class="sub">Quatre produits de démonstration, pour montrer ce que contiendront les fiches : origine, vendeur, prix et livraison.</p></div>
-      <ul class="grid grid--prod" role="list">${selection.map(card).join('')}</ul>
+      <ul class="grid grid--prod" role="list">${selection.map((p, i) => card(p, i, 3)).join('')}</ul>
       <p><a class="btn btn--green" href="/catalogue">Voir tout le catalogue</a></p>
     </section>`);
   if (!/<script src="\/shop\.js"/.test(html)) html = html.replace('</head>', '  <script src="/shop.js" defer></script>\n</head>');
